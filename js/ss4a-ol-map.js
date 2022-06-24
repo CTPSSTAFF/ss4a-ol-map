@@ -62,30 +62,50 @@ function toggle_basemap(e) {
 } // toggle_basemap()
 
 
-// Vector layer for BRMPO region
+// Vector polygon layer for BRMPO region
 var brmpo_style = new ol.style.Style({ fill	: new ol.style.Fill({ color: 'rgba(193,66,66,0.4)' }), 
                                        stroke : new ol.style.Stroke({ color: 'rgba(0,0,255,1.0)', width: 0.1})
 				});
 var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO',
 								  source: new ol.source.Vector({  url: 'data/geojson/ctps_brmpo_boundary_poly.geojson',
 								                                  format: new ol.format.GeoJSON()
-																  // , projection: 'EPSG:3857'
 																}),
 								  style: brmpo_style
 								});
 
-// Vector layer for MAPC area not in BRMPO
+// Vector polygon layer for MAPC area not in BRMPO
 var mapc_non_mpo_style = new ol.style.Style({ fill	: new ol.style.Fill({ color: 'rgba(0,0,255,0.4)' }), 
                                        stroke : new ol.style.Stroke({ color: 'rgba(0,0,255,1.0)', width: 0.1})
 				});
 var mapc_non_mpo = new ol.layer.Vector({ title: 'Boston Region MPO',
 										 source: new ol.source.Vector({ url: 'data/geojson/mapc_non_mpo_boundary_poly.geojson',
 										                                 format: new ol.format.GeoJSON()
-																		 // , projection: 'EPSG:3857'
 																       }),
 										 style: mapc_non_mpo_style
 									});
 
+// Vector point layer for accidents in BRMPO area in 2016-2020
+var brmpo_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
+                                                                          fill: new ol.style.Fill({color: 'red'}) })
+                                                                        });
+
+var brmpo_crashes = new ol.layer.Vector({ title: 'Accidents in BRMPO',
+								          source: new ol.source.Vector({  url: 'data/geojson/accidents_brmpo_2016_2020.geojson',
+								                                          format: new ol.format.GeoJSON()
+																}),
+								  style: brmpo_crash_style
+								});
+
+// Vector point layer for accidents in MAPC area not in BRMPO in 2016-2020
+var mapc_non_brmpo_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
+                                                                                   fill: new ol.style.Fill({color: 'yellow'}) })
+                                                                                 });
+var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Accidents in MAPC area, not in BRMPO',
+								                   source: new ol.source.Vector({  url: 'data/geojson/accidents_mapc_non_brmpo_2016_2020.geojson',
+								                                                   format: new ol.format.GeoJSON()
+																}),
+								  style: mapc_non_brmpo_crash_style
+								});
 
 // Function: initialize()
 //     0. Initialize the jQueryUI accordion control
@@ -190,7 +210,9 @@ function initialize() {
                                          mgis_basemap_layers['structures'],
                                          mgis_basemap_layers['basemap_features'],
 										 brmpo,
-										 mapc_non_mpo
+										 mapc_non_mpo,
+										 brmpo_crashes,
+										 mapc_non_brmpo_crashes
                                       ],
                                target: 'map',
                                view:   new ol.View({ center: ol.proj.fromLonLat([-71.0589, 42.3601]), 
