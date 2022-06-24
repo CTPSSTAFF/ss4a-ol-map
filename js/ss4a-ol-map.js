@@ -210,9 +210,9 @@ function initialize() {
 		var popupWindow = window.open(url,'popUpWindow','height=700,width=800,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=yes')
 	} // popup()
 
-	displayHelp = function() {
-		popup('help.html');
+	displayAbout = function() {
+		popup('about.html');
 	}; // displayHelp()
 	//event handler
-	$('#help_button').bind('click', displayHelp);
+	$('#about_button').bind('click', displayAbout);
 } // initialize()
