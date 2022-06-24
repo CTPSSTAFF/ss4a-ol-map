@@ -61,18 +61,6 @@ function toggle_basemap(e) {
     }   
 } // toggle_basemap()
 
-/////////////////////
-
-new ol.layer.Vector({
-        source: new ol.source.Vector({
-            //url: 'http://www.yourserver.com/static/countries.geojson',
-            url: './countries.geojson',
-            format: new ol.format.GeoJSON()
-        })
-    });
-
-////////////////////
-
 
 // Vector layer for BRMPO region
 var brmpo_style = new ol.style.Style({ fill	: new ol.style.Fill({ color: 'rgba(193,66,66,0.4)' }), 
@@ -205,9 +193,13 @@ function initialize() {
 										 mapc_non_mpo
                                       ],
                                target: 'map',
-                               view:   new ol.View({ center: ol.proj.fromLonLat([-71.0589, 42.3601]), zoom: 11 })
+                               view:   new ol.View({ center: ol.proj.fromLonLat([-71.0589, 42.3601]), 
+							                         zoom:  10})
                             });              
     }});
+	
+	// var bad_center = [-7915162.608149231, 5213281.575874908];
+	// var old_zoom = 9.982027347373986;
     
     // 2. Arm event handlers for UI control(s)
     // Arm event handler for basemap selection
