@@ -61,14 +61,27 @@ function toggle_basemap(e) {
     }   
 } // toggle_basemap()
 
+/////////////////////
+
+new ol.layer.Vector({
+        source: new ol.source.Vector({
+            //url: 'http://www.yourserver.com/static/countries.geojson',
+            url: './countries.geojson',
+            format: new ol.format.GeoJSON()
+        })
+    });
+
+////////////////////
+
 
 // Vector layer for BRMPO region
 var brmpo_style = new ol.style.Style({ fill	: new ol.style.Fill({ color: 'rgba(193,66,66,0.4)' }), 
                                        stroke : new ol.style.Stroke({ color: 'rgba(0,0,255,1.0)', width: 0.1})
 				});
 var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO',
-								  source: new ol.source.GeoJSON({ projection: 'EPSG:3857',
-																  url: 'data/geojson/ctps_brmpo_boundary_poly.geojson'
+								  source: new ol.source.Vector({  url: 'data/geojson/ctps_brmpo_boundary_poly.geojson',
+								                                  format: new ol.format.GeoJSON()
+																  // , projection: 'EPSG:3857'
 																}),
 								  style: brmpo_style
 								});
@@ -78,8 +91,9 @@ var mapc_non_mpo_style = new ol.style.Style({ fill	: new ol.style.Fill({ color: 
                                        stroke : new ol.style.Stroke({ color: 'rgba(0,0,255,1.0)', width: 0.1})
 				});
 var mapc_non_mpo = new ol.layer.Vector({ title: 'Boston Region MPO',
-										 source: new ol.source.GeoJSON({ projection: 'EPSG:3857',
-																         url: 'data/geojson/mapc_non_mpo_boundary_poly.geojson'
+										 source: new ol.source.Vector({ url: 'data/geojson/mapc_non_mpo_boundary_poly.geojson',
+										                                 format: new ol.format.GeoJSON()
+																		 // , projection: 'EPSG:3857'
 																       }),
 										 style: mapc_non_mpo_style
 									});
