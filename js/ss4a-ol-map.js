@@ -40,6 +40,9 @@ var szWFSserverRoot = szServerRoot + '/wfs';
 
 // OpenLayers 'map' object:
 var ol_map = null;
+var initMapCenter = ol.proj.fromLonLat([-71.0589, 42.3601]);
+var initMapZoom = 10;
+var initMapView =  new ol.View({ center: initMapCenter, zoom:  initMapZoom });
 
 // On-change event handler for radio buttons to chose basemap
 function toggle_basemap(e) {
@@ -105,7 +108,7 @@ var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Accidents in MAPC are
 								                                                   format: new ol.format.GeoJSON()
 																}),
 								                   style: mapc_non_brmpo_crash_style
-								});
+		});
 
 // Function: initialize()
 //     0. Initialize the jQueryUI accordion control
@@ -113,14 +116,6 @@ var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Accidents in MAPC are
 //     2. Arm event handlers for UI controls
 //
 function initialize() {  
-    // 0. Initialize the jQueryUI accordion control
-	//
-	// *** Commented out - at least for now
-	//
-    // $('#accordion0').accordion({ active: 0, collapsible : true, multiple : false, heightStyle : "content" });
-	// $('#accordion1').accordion({ active: false, collapsible : true, multiple : false, heightStyle : "content" });
-	// $('#accordion2').accordion({ active: false, collapsible : true, multiple : false, heightStyle : "content" });
-
     // 1. Initialize OpenLayers map, gets MassGIS basemap service properties by executing AJAX request
     $.ajax({ url: mgis_serviceUrls['topo_features'], jsonp: 'callback', dataType: 'jsonp', data: { f: 'json' }, 
              success: function(config) {     
@@ -204,8 +199,11 @@ function initialize() {
 */
 
         // Create OpenStreetMap base layer
-        osm_basemap_layer = new ol.layer.Tile({ source: new ol.source.OSM(),
+        var osm_basemap_layer = new ol.layer.Tile({ source: new ol.source.OSM(),
 		                                        visisble: false, });
+												
+		initMapView =  new ol.View({ center: ol.proj.fromLonLat([-71.0589, 42.3601]), 
+							         zoom:  10});
 
         // Create OpenLayers map
         ol_map = new ol.Map({ layers: [  osm_basemap_layer,
@@ -218,8 +216,7 @@ function initialize() {
 										 mapc_non_brmpo_crashes
                                       ],
                                target: 'map',
-                               view:   new ol.View({ center: ol.proj.fromLonLat([-71.0589, 42.3601]), 
-							                         zoom:  10})
+                               view:   initMapView 
                             });
 							
 		// Add layer switcher add-on conrol
@@ -232,11 +229,14 @@ function initialize() {
 		ol_map.addControl(layerSwitcher);
     }});
 	
-
-    
     // 2. Arm event handlers for UI control(s)
     // Arm event handler for basemap selection
     $(".basemap_radio").change(toggle_basemap);
+	
+	$("#reset_map").click(function(e) {
+		ol_map.getView().setCenter(initMapCenter);
+		ol_map.getView().setZoom(initMapZoom);
+		});
 
 	// Help button
 	function popup(url) {
