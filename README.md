@@ -20,4 +20,4 @@ The jQuery and OpenLayers libraries are loaded from a CDN; the OpenLayers layer 
 
 
 ## Data Analysis
-The analytical method used to prepare the data for this application is found [here](https:./html/SS4A_processing.html).
+The analytical method used to prepare the data for this application is found [here](https://./html/SS4A_processing.html).
