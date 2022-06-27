@@ -63,7 +63,7 @@ function toggle_basemap(e) {
 
 
 // Vector polygon layer for BRMPO region
-var brmpo_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(70, 130, 180, 0.6)' }), 
+var brmpo_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(70, 130, 180, 0.3)' }), 
                                        stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 255,1.0)', width: 0.1})
 				});
 var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO (BRMPO)',
@@ -159,7 +159,7 @@ function initialize() {
             tileGrid = new ol.tilegrid.TileGrid({ origin: tileOrigin, extent: extent, resolutions: resolutions });
         }     
 
-        // Layer 1 - topographic features
+        // MassGIS basemap Layer 1 - topographic features
         var layerSource;
         layerSource = new ol.source.XYZ({ attributions: [attribution], projection: projection,
                                           tileSize: tileSize, tileGrid: tileGrid,
@@ -172,26 +172,26 @@ function initialize() {
         // We make the rash assumption that since this set of tiled basemap layers were designed to overlay one another,
         // their projection, extent, and resolutions are the same.
         
-         // Layer 2 - structures
+         // MassGIS basemap Layer 2 - structures
         urls = [mgis_serviceUrls['structures'] += suffix];  
         layerSource = new ol.source.XYZ({ attributions: [attribution], projection: projection,
                                           tileSize: tileSize, tileGrid: tileGrid,
                                           tileUrlFunction: tileUrlFunction, urls: urls });;
         mgis_basemap_layers['structures'] = new ol.layer.Tile();
         mgis_basemap_layers['structures'].setSource(layerSource); 
-        mgis_basemap_layers['structures'].setVisible(true);          
+        mgis_basemap_layers['structures'].setVisible(true);
         
-        // Layer 3 - "detailed" features - these include labels
+        // MassGIS basemap Layer 3 - "detailed" features - these include labels
         urls = [mgis_serviceUrls['basemap_features'] += suffix];  
         layerSource = new ol.source.XYZ({ attributions: [attribution], projection: projection,
                                           tileSize: tileSize, tileGrid: tileGrid,
-                                          tileUrlFunction: tileUrlFunction, urls: urls });                                  
+                                          tileUrlFunction: tileUrlFunction, urls: urls });
         mgis_basemap_layers['basemap_features'] = new ol.layer.Tile();
         mgis_basemap_layers['basemap_features'].setSource(layerSource);
         mgis_basemap_layers['basemap_features'].setVisible(true);
-              
+
                        
-        // Layer 4 - parcels - WE (CURRENTLY) DO NOT USE THIS LAYER
+        // MassGIS basemap Layer 4 - parcels - WE (CURRENTLY) DO NOT USE THIS LAYER
         // Code retained for reference purposes only
 /*
         urls = [mgis_serviceUrls['parcels'] += suffix];
@@ -204,8 +204,8 @@ function initialize() {
 */
 
         // Create OpenStreetMap base layer
-        osm_basemap_layer = new ol.layer.Tile({ source: new ol.source.OSM() });
-        osm_basemap_layer.setVisible(false);
+        osm_basemap_layer = new ol.layer.Tile({ source: new ol.source.OSM(),
+		                                        visisble: false, });
 
         // Create OpenLayers map
         ol_map = new ol.Map({ layers: [  osm_basemap_layer,
@@ -226,7 +226,8 @@ function initialize() {
 		var layerSwitcher = new ol.control.LayerSwitcher({ tipLabel: 'Legend', // Optional label for button
                                                            groupSelectStyle: 'children', // Can be 'children' [default], 'group' or 'none'
 														   activationMode: 'click',
-                                                           startActive: true,
+                                                           // startActive: true,
+														   reverse: true // List layers in order they were added to the map
                                                          });
 		ol_map.addControl(layerSwitcher);
 							
