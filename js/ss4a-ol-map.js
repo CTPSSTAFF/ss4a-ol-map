@@ -66,7 +66,7 @@ function toggle_basemap(e) {
 var brmpo_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(70, 130, 180, 0.6)' }), 
                                        stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 255,1.0)', width: 0.1})
 				});
-var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO',
+var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO (BRMPO)',
 								  source: new ol.source.Vector({  url: 'data/geojson/ctps_brmpo_boundary_poly.geojson',
 								                                  format: new ol.format.GeoJSON()
 																}),
@@ -77,7 +77,7 @@ var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO',
 var mapc_non_mpo_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(109, 5, 245, 0.3)' }), 
                                               stroke: new ol.style.Stroke({ color: 'rgba(109,5,245,1.0)', width: 0.1})
 				});
-var mapc_non_mpo = new ol.layer.Vector({ title: 'Boston Region MPO',
+var mapc_non_mpo = new ol.layer.Vector({ title: 'MAPC Area not within Boston Region MPO',
 										 source: new ol.source.Vector({ url: 'data/geojson/mapc_non_mpo_boundary_poly.geojson',
 										                                format: new ol.format.GeoJSON()
 																       }),
@@ -220,9 +220,17 @@ function initialize() {
                                target: 'map',
                                view:   new ol.View({ center: ol.proj.fromLonLat([-71.0589, 42.3601]), 
 							                         zoom:  10})
-                            });              
+                            });
+							
+		// Add layer switcher add-on conrol
+		var layerSwitcher = new ol.control.LayerSwitcher({ tipLabel: 'Legend', // Optional label for button
+                                                           groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
+                                                         });
+		ol_map.addControl(layerSwitcher);
+							
     }});
 	
+
     
     // 2. Arm event handlers for UI control(s)
     // Arm event handler for basemap selection
