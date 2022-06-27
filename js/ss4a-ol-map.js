@@ -199,11 +199,9 @@ function initialize() {
 */
 
         // Create OpenStreetMap base layer
-        var osm_basemap_layer = new ol.layer.Tile({ source: new ol.source.OSM(),
-		                                        visisble: false, });
+        osm_basemap_layer = new ol.layer.Tile({ source: new ol.source.OSM() });
+		osm_basemap_layer.setVisible(false);
 												
-		initMapView =  new ol.View({ center: ol.proj.fromLonLat([-71.0589, 42.3601]), 
-							         zoom:  10});
 
         // Create OpenLayers map
         ol_map = new ol.Map({ layers: [  osm_basemap_layer,
