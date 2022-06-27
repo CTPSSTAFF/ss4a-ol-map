@@ -78,13 +78,24 @@ var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO (BRMPO)',
 
 // Vector polygon layer for MAPC area not in BRMPO
 var mapc_non_mpo_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(109, 5, 245, 0.3)' }), 
-                                              stroke: new ol.style.Stroke({ color: 'rgba(109,5,245,1.0)', width: 0.1})
+                                              stroke: new ol.style.Stroke({ color: 'rgba(109, 5, 245, 1.0)', width: 0.1})
 				});
 var mapc_non_mpo = new ol.layer.Vector({ title: 'MAPC area not within Boston Region MPO',
 										 source: new ol.source.Vector({ url: 'data/geojson/mapc_non_mpo_boundary_poly.geojson',
 										                                format: new ol.format.GeoJSON()
 																       }),
 										 style: mapc_non_mpo_style
+									});
+									
+// Vector polygone layer for underserved 2010 Census tracts
+var underserved_2010_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(255, 234, 190, 0.6)' }), 
+                                                  stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 1.0)', width: 0.1})
+				});
+var underserved_2010 = new ol.layer.Vector({ title: 'Underserved Census Tracts 2010',
+										     source: new ol.source.Vector({ url: 'data/geojson/underserved_mapc_tracts_2010_epsg4326.geojson',
+										                                   format: new ol.format.GeoJSON()
+																       }),
+										     style: underserved_2010_style
 									});
 
 // Vector point layer for accidents in BRMPO area in 2016-2020
@@ -210,6 +221,7 @@ function initialize() {
                                          mgis_basemap_layers['basemap_features'],
 										 brmpo,
 										 mapc_non_mpo,
+										 underserved_2010,
 										 brmpo_crashes,
 										 mapc_non_brmpo_crashes
                                       ],
