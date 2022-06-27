@@ -224,7 +224,9 @@ function initialize() {
 							
 		// Add layer switcher add-on conrol
 		var layerSwitcher = new ol.control.LayerSwitcher({ tipLabel: 'Legend', // Optional label for button
-                                                           groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
+                                                           groupSelectStyle: 'children', // Can be 'children' [default], 'group' or 'none'
+														   activationMode: 'click',
+                                                           startActive: true,
                                                          });
 		ol_map.addControl(layerSwitcher);
 							
