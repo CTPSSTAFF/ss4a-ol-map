@@ -242,7 +242,7 @@ function initialize() {
 	} // popup()
 
 	displayAbout = function() {
-		popup('about.html');
+		popup('About.html');
 	}; // displayHelp()
 	//event handler
 	$('#about_button').bind('click', displayAbout);
