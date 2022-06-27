@@ -227,10 +227,9 @@ function initialize() {
                                                            groupSelectStyle: 'children', // Can be 'children' [default], 'group' or 'none'
 														   activationMode: 'click',
                                                            startActive: true,
-														   reverse: true // List layers in order they were added to the map
+														   reverse: false // List layers in order they were added to the map
                                                          });
 		ol_map.addControl(layerSwitcher);
-							
     }});
 	
 
