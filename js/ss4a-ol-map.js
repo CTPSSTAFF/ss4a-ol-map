@@ -77,7 +77,7 @@ var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO (BRMPO)',
 var mapc_non_mpo_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(109, 5, 245, 0.3)' }), 
                                               stroke: new ol.style.Stroke({ color: 'rgba(109,5,245,1.0)', width: 0.1})
 				});
-var mapc_non_mpo = new ol.layer.Vector({ title: 'MAPC Area not within Boston Region MPO',
+var mapc_non_mpo = new ol.layer.Vector({ title: 'MAPC area not within Boston Region MPO',
 										 source: new ol.source.Vector({ url: 'data/geojson/mapc_non_mpo_boundary_poly.geojson',
 										                                format: new ol.format.GeoJSON()
 																       }),
@@ -226,7 +226,7 @@ function initialize() {
 		var layerSwitcher = new ol.control.LayerSwitcher({ tipLabel: 'Legend', // Optional label for button
                                                            groupSelectStyle: 'children', // Can be 'children' [default], 'group' or 'none'
 														   activationMode: 'click',
-                                                           // startActive: true,
+                                                           startActive: true,
 														   reverse: true // List layers in order they were added to the map
                                                          });
 		ol_map.addControl(layerSwitcher);
