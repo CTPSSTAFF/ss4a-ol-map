@@ -63,8 +63,8 @@ function toggle_basemap(e) {
 
 
 // Vector polygon layer for BRMPO region
-var brmpo_style = new ol.style.Style({ fill	: new ol.style.Fill({ color: 'rgba(193,66,66,0.4)' }), 
-                                       stroke : new ol.style.Stroke({ color: 'rgba(0,0,255,1.0)', width: 0.1})
+var brmpo_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(70, 130, 180, 0.6)' }), 
+                                       stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 255,1.0)', width: 0.1})
 				});
 var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO',
 								  source: new ol.source.Vector({  url: 'data/geojson/ctps_brmpo_boundary_poly.geojson',
@@ -74,12 +74,12 @@ var brmpo = new ol.layer.Vector({ title: 'Boston Region MPO',
 								});
 
 // Vector polygon layer for MAPC area not in BRMPO
-var mapc_non_mpo_style = new ol.style.Style({ fill	: new ol.style.Fill({ color: 'rgba(0,0,255,0.4)' }), 
-                                       stroke : new ol.style.Stroke({ color: 'rgba(0,0,255,1.0)', width: 0.1})
+var mapc_non_mpo_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(109, 5, 245, 0.3)' }), 
+                                              stroke: new ol.style.Stroke({ color: 'rgba(109,5,245,1.0)', width: 0.1})
 				});
 var mapc_non_mpo = new ol.layer.Vector({ title: 'Boston Region MPO',
 										 source: new ol.source.Vector({ url: 'data/geojson/mapc_non_mpo_boundary_poly.geojson',
-										                                 format: new ol.format.GeoJSON()
+										                                format: new ol.format.GeoJSON()
 																       }),
 										 style: mapc_non_mpo_style
 									});
@@ -93,7 +93,7 @@ var brmpo_crashes = new ol.layer.Vector({ title: 'Accidents in BRMPO',
 								          source: new ol.source.Vector({  url: 'data/geojson/accidents_brmpo_2016_2020.geojson',
 								                                          format: new ol.format.GeoJSON()
 																}),
-								  style: brmpo_crash_style
+								          style: brmpo_crash_style
 								});
 
 // Vector point layer for accidents in MAPC area not in BRMPO in 2016-2020
@@ -104,7 +104,7 @@ var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Accidents in MAPC are
 								                   source: new ol.source.Vector({  url: 'data/geojson/accidents_mapc_non_brmpo_2016_2020.geojson',
 								                                                   format: new ol.format.GeoJSON()
 																}),
-								  style: mapc_non_brmpo_crash_style
+								                   style: mapc_non_brmpo_crash_style
 								});
 
 // Function: initialize()
@@ -114,9 +114,12 @@ var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Accidents in MAPC are
 //
 function initialize() {  
     // 0. Initialize the jQueryUI accordion control
-    $('#accordion0').accordion({ active: 0, collapsible : true, multiple : false, heightStyle : "content" });
-	$('#accordion1').accordion({ active: false, collapsible : true, multiple : false, heightStyle : "content" });
-	$('#accordion2').accordion({ active: false, collapsible : true, multiple : false, heightStyle : "content" });
+	//
+	// *** Commented out - at least for now
+	//
+    // $('#accordion0').accordion({ active: 0, collapsible : true, multiple : false, heightStyle : "content" });
+	// $('#accordion1').accordion({ active: false, collapsible : true, multiple : false, heightStyle : "content" });
+	// $('#accordion2').accordion({ active: false, collapsible : true, multiple : false, heightStyle : "content" });
 
     // 1. Initialize OpenLayers map, gets MassGIS basemap service properties by executing AJAX request
     $.ajax({ url: mgis_serviceUrls['topo_features'], jsonp: 'callback', dataType: 'jsonp', data: { f: 'json' }, 
@@ -220,8 +223,6 @@ function initialize() {
                             });              
     }});
 	
-	// var bad_center = [-7915162.608149231, 5213281.575874908];
-	// var old_zoom = 9.982027347373986;
     
     // 2. Arm event handlers for UI control(s)
     // Arm event handler for basemap selection
