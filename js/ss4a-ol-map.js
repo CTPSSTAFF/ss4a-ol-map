@@ -31,8 +31,10 @@ if (location.hostname.includes('appsrvr3')) {
     szServerRoot += ':8080/geoserver/';  
 	nameSpace = 'ctps_pg';
 } else {
-    szServerRoot += '/maploc/';
-	nameSpace = 'pnr_viewer';
+	// Temp hack to allow working from home
+    // szServerRoot += 'https://www.ctps.org/maploc/';
+	szServerRoot = 'https://www.ctps.org/maploc/';
+	nameSpace = 'postgis';
 }
 var szWMSserverRoot = szServerRoot + '/wms'; 
 var szWFSserverRoot = szServerRoot + '/wfs'; 
@@ -65,6 +67,10 @@ function toggle_basemap(e) {
 } // toggle_basemap()
 
 
+// Definition of vector 'overlay' layers:
+// In practice, we may wind up using WMS/WFS layers instead of Vector layers for some/all of these,
+// but they are nonetheless valuable for use during development and debugging.
+// 
 // Vector polygon layer for BRMPO region
 var brmpo_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(70, 130, 180, 0.3)' }), 
                                        stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 255,1.0)', width: 0.1})
@@ -212,15 +218,35 @@ function initialize() {
         // Create OpenStreetMap base layer
         osm_basemap_layer = new ol.layer.Tile({ source: new ol.source.OSM() });
 		osm_basemap_layer.setVisible(false);
-												
+
+		// Create WMS layers
+		var brmpo_wms = new ol.layer.Tile({	source: new ol.source.TileWMS({ url		: szWMSserverRoot,
+																			params	: { 'LAYERS': 'postgis:ctps_brmpo_boundary_poly', 
+																						'STYLES': 'ss4a_brmpo_area',
+																						'TRANSPARENT': 'true'
+																					  }
+																		}),
+											title: 'Boston Region MPO (BRMPO)',	
+											visible: true
+										});	
+										
+		var mapc_non_brmpo_wms = new ol.layer.Tile({ source: new ol.source.TileWMS({ url		: szWMSserverRoot,
+																	                 params	: { 'LAYERS': 'postgis:ctps_mapc_non_mpo_boundary_poly', 
+																				                'STYLES': 'ss4a_mapc_non_brmpo_area',
+																				                'TRANSPARENT': 'true'
+																			                  }
+																                   }),
+									                 title: 'MAPC area not within Boston Region MPO',
+													 visible: true
+								                   });	
 
         // Create OpenLayers map
         ol_map = new ol.Map({ layers: [  osm_basemap_layer,
                                          mgis_basemap_layers['topo_features'],
                                          mgis_basemap_layers['structures'],
                                          mgis_basemap_layers['basemap_features'],
-										 brmpo,
-										 mapc_non_mpo,
+										 brmpo_wms,
+										 mapc_non_brmpo_wms,
 										 underserved_2010,
 										 brmpo_crashes,
 										 mapc_non_brmpo_crashes
