@@ -16,8 +16,8 @@ The jQuery and OpenLayers libraries are loaded from a CDN; the OpenLayers layer 
  [CTPS list of Boston Region MPO towns](https://www.ctps.org/mpo_communities)
 * Boundary of towns in MAPC, but not in Boston Region MPO: [MassGIS TOWNS_POLYM layer](https://www.mass.gov/info-details/massgis-data-municipalities), 
 [MAPC website](https://www.mapc.org/)
-* [Areas of Persistent Poverty and Historically Disaadvantaged Communities](https://datahub.transportation.gov/stories/s/tsyd-k6ij)
-* [NHSTA Fatal Analysis Reporting System crash data](https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/
+* [Areas of Persistent Poverty and Historically Disadvantaged Communities](https://datahub.transportation.gov/stories/s/tsyd-k6ij)
+* [NHSTA Fatal Analysis Reporting System crash data](https://www.nhtsa.gov/file-downloads?p=nhtsa/downloads/FARS/)
 
 ## Data Processing
 Documentation on the method used to prepare the data for this application 
