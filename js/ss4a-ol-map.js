@@ -281,7 +281,7 @@ function initialize() {
 
 	displaySupportingDoc = function() {
 		popup('supporting_documentation.html');
-	}; // displayHelp()
+	}; 
 	// event handler
 	$('#supporting_doc_button').bind('click', displaySupportingDoc);
 } // initialize()
