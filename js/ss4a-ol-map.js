@@ -39,12 +39,21 @@ if (location.hostname.includes('appsrvr3')) {
 var szWMSserverRoot = szServerRoot + '/wms'; 
 var szWFSserverRoot = szServerRoot + '/wfs'; 
 
-
 // OpenLayers 'map' object:
 var ol_map = null;
 var initMapCenter = ol.proj.fromLonLat([-71.0589, 42.3601]);
 var initMapZoom = 10;
 var initMapView =  new ol.View({ center: initMapCenter, zoom:  initMapZoom });
+
+// Elements that make up an OpenLayers popup
+var container = document.getElementById('popup');
+var content = document.getElementById('popup-content');
+var closer = document.getElementById('popup-closer');
+
+// Create an overlay to anchor the popup to the map
+var overlay = new ol.Overlay({ element: container,
+                               autoPan: { animation: { duration: 250 } }
+                             });
 
 // On-change event handler for radio buttons to chose basemap
 function toggle_basemap(e) {
@@ -267,8 +276,19 @@ function initialize() {
 										 mapc_non_brmpo_crashes
                                       ],
                                target: 'map',
-                               view:   initMapView 
+                               view:   initMapView,
+							   overlays: [overlay]
                             });
+/*
+		// Proof-of-concept code to display 'popup' overlay:
+		ol_map.on('singleclick', function(evt) {
+					var coordinate = evt.coordinate;
+					var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinate));
+					document.getElementById('popup-content');
+					content.innerHTML = '<p>You clicked here:</p><code>' + hdms + '</code>';
+			        overlay.setPosition(coordinate);
+                   });
+*/
 							
 		// Add layer switcher add-on conrol
 		var layerSwitcher = new ol.control.LayerSwitcher({ tipLabel: 'Legend', // Optional label for button
