@@ -22,7 +22,6 @@ var mgis_basemap_layers = { 'topo_features'     : null,     // bottom layer
 var osm_basemap_layer = null; 
 
 
-
 // Varioius things for WMS and WFS layers
 // First, folderol to allow the app to run on appsrvr3 as well as "in the wild"
 var szServerRoot = location.protocol + '//' + location.hostname;
@@ -45,15 +44,22 @@ var initMapCenter = ol.proj.fromLonLat([-71.0589, 42.3601]);
 var initMapZoom = 10;
 var initMapView =  new ol.View({ center: initMapCenter, zoom:  initMapZoom });
 
-// Elements that make up an OpenLayers popup
+// Elements that make up an OpenLayers popup 'overlay'
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
 var closer = document.getElementById('popup-closer');
-
+// Add a click handler to hide the popup
+closer.onclick = function () { 
+	overlay.setPosition(undefined);
+	closer.blur();
+	return false;
+};
 // Create an overlay to anchor the popup to the map
 var overlay = new ol.Overlay({ element: container,
                                autoPan: { animation: { duration: 250 } }
                              });
+// Sledgehammer to enable/disable creation of popup
+var popup_on = false;
 
 // On-change event handler for radio buttons to chose basemap
 function toggle_basemap(e) {
@@ -279,16 +285,17 @@ function initialize() {
                                view:   initMapView,
 							   overlays: [overlay]
                             });
-/*
+
 		// Proof-of-concept code to display 'popup' overlay:
-		ol_map.on('singleclick', function(evt) {
-					var coordinate = evt.coordinate;
-					var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinate));
-					document.getElementById('popup-content');
-					content.innerHTML = '<p>You clicked here:</p><code>' + hdms + '</code>';
-			        overlay.setPosition(coordinate);
-                   });
-*/
+		if (popup_on == true) {
+			ol_map.on('singleclick', function(evt) {
+						var coordinate = evt.coordinate;
+						var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinate));
+						document.getElementById('popup-content');
+						content.innerHTML = '<p>You clicked here:</p><code>' + hdms + '</code>';
+						overlay.setPosition(coordinate);
+					   });
+		}
 							
 		// Add layer switcher add-on conrol
 		var layerSwitcher = new ol.control.LayerSwitcher({ tipLabel: 'Legend', // Optional label for button
