@@ -49,7 +49,15 @@ var initMapView =  new ol.View({ center: initMapCenter, zoom:  initMapZoom });
 // On-change event handler for radio buttons to chose basemap
 function toggle_basemap(e) {
     switch($(this).val()) {
+		case 'stamen_basemap':
+            mgis_basemap_layers['topo_features'].setVisible(false);
+            mgis_basemap_layers['structures'].setVisible(false);
+            mgis_basemap_layers['basemap_features'].setVisible(false);
+			osm_basemap_layer.setVisible(false);
+			stamen_basemap_layer.setVisible(true);
+			break;
         case 'massgis_basemap' :
+			stamen_basemap_layer.setVisible(false);
             osm_basemap_layer.setVisible(false); 
             mgis_basemap_layers['topo_features'].setVisible(true);
             mgis_basemap_layers['structures'].setVisible(true);
@@ -59,6 +67,7 @@ function toggle_basemap(e) {
             mgis_basemap_layers['topo_features'].setVisible(false);
             mgis_basemap_layers['structures'].setVisible(false);
             mgis_basemap_layers['basemap_features'].setVisible(false);
+			stamen_basemap_layer.setVisible(false);
             osm_basemap_layer.setVisible(true);   
             break;
         default:
@@ -179,7 +188,7 @@ function initialize() {
                           
         mgis_basemap_layers['topo_features'] = new ol.layer.Tile();
         mgis_basemap_layers['topo_features'].setSource(layerSource);
-        mgis_basemap_layers['topo_features'].setVisible(true);
+        mgis_basemap_layers['topo_features'].setVisible(false);
         
         // We make the rash assumption that since this set of tiled basemap layers were designed to overlay one another,
         // their projection, extent, and resolutions are the same.
@@ -191,7 +200,7 @@ function initialize() {
                                           tileUrlFunction: tileUrlFunction, urls: urls });;
         mgis_basemap_layers['structures'] = new ol.layer.Tile();
         mgis_basemap_layers['structures'].setSource(layerSource); 
-        mgis_basemap_layers['structures'].setVisible(true);
+        mgis_basemap_layers['structures'].setVisible(false);
         
         // MassGIS basemap Layer 3 - "detailed" features - these include labels
         urls = [mgis_serviceUrls['basemap_features'] += suffix];  
@@ -200,7 +209,7 @@ function initialize() {
                                           tileUrlFunction: tileUrlFunction, urls: urls });
         mgis_basemap_layers['basemap_features'] = new ol.layer.Tile();
         mgis_basemap_layers['basemap_features'].setSource(layerSource);
-        mgis_basemap_layers['basemap_features'].setVisible(true);
+        mgis_basemap_layers['basemap_features'].setVisible(false);
 
                        
         // MassGIS basemap Layer 4 - parcels - WE (CURRENTLY) DO NOT USE THIS LAYER
@@ -218,6 +227,11 @@ function initialize() {
         // Create OpenStreetMap base layer
         osm_basemap_layer = new ol.layer.Tile({ source: new ol.source.OSM() });
 		osm_basemap_layer.setVisible(false);
+		
+		// Create Stamen 'toner-lite' base layer
+	    stamen_basemap_layer = new ol.layer.Tile({ source: new ol.source.Stamen({layer: 'toner-lite',
+		                                                                          url: "https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png" }) });
+		stamen_basemap_layer.setVisible(true);
 
 		// Create WMS layers
 		var brmpo_wms = new ol.layer.Tile({	source: new ol.source.TileWMS({ url		: szWMSserverRoot,
@@ -241,7 +255,8 @@ function initialize() {
 								                   });	
 
         // Create OpenLayers map
-        ol_map = new ol.Map({ layers: [  osm_basemap_layer,
+        ol_map = new ol.Map({ layers: [  stamen_basemap_layer, 
+										 osm_basemap_layer,
                                          mgis_basemap_layers['topo_features'],
                                          mgis_basemap_layers['structures'],
                                          mgis_basemap_layers['basemap_features'],
