@@ -32,7 +32,7 @@ if (location.hostname.includes('appsrvr3')) {
 	nameSpace = 'ctps_pg';
 } else {
 	// Temp hack to allow working from home
-    // szServerRoot += 'https://www.ctps.org/maploc/';
+    // szServerRoot += '/maploc/';
 	szServerRoot = 'https://www.ctps.org/maploc/';
 	nameSpace = 'postgis';
 }
