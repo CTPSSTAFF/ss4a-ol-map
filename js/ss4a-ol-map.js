@@ -59,7 +59,7 @@ var overlay = new ol.Overlay({ element: container,
                                autoPan: { animation: { duration: 250 } }
                              });
 // Sledgehammer to enable/disable creation of popup
-var popup_on = false;
+var popup_on = true;
 
 // On-change event handler for radio buttons to chose basemap
 function toggle_basemap(e) {
@@ -150,6 +150,51 @@ var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in MAPC
 																}),
 								                   style: mapc_non_brmpo_crash_style
 		});
+
+// On-click event handler for overlay features, and associated machinery
+//
+var highlightStyle = new ol.style.Style({ stroke: new ol.style.Stroke({ color: 'rgba(255, 255, 255, 0.7)',
+                                                                        width: 2
+												                     })
+                                       });
+var featureOverlay = new ol.layer.Vector({ source: new ol.source.Vector(),
+                                           map: ol_map,
+                                           style: highlightStyle
+                                        });
+var highlight;
+var displayFeatureInfo = function (evt) {
+	// alert('Entered click event handler.');
+	console.log('Entered click event handler.');
+	var pixel = evt.pixel;
+	var coordinate = evt.coordinate;
+    underserved_2010.getFeatures(pixel).then(function (features) {
+        var feature = features.length ? features[0] : undefined;
+        if (features.length) {
+			var tract_id = 0, app = 'No', hdc = 'No';
+			tract_id = feature.get('geoid10');
+			app = feature.get('f_p____');
+			hdc = feature.get('g_h____');
+			var content = document.getElementById('popup-content');
+			var s = '<p>Tract ID: &nbsp; ' + tract_id + '</p>';
+			s += '<p>Area of persistent poverty: &nbsp; ' + app + '</p>';
+			s += '<p>Historically disadvantaged community: &nbsp; ' + hdc + '</p>';
+			console.log(s)
+            content.innerHTML = s;
+			overlay.setPosition(coordinate);
+        } 
+		return;
+		 
+		if (feature !== highlight) {
+			if (highlight) {
+				featureOverlay.getSource().removeFeature(highlight);
+			}
+			if (feature) {
+				featureOverlay.getSource().addFeature(feature);
+			}
+		  highlight = feature;
+		}
+	});
+};
 
 // Function: initialize()
 //     0. Initialize the jQueryUI accordion control
@@ -288,13 +333,9 @@ function initialize() {
 
 		// Proof-of-concept code to display 'popup' overlay:
 		if (popup_on == true) {
-			ol_map.on('singleclick', function(evt) {
-						var coordinate = evt.coordinate;
-						var hdms = ol.coordinate.toStringHDMS(ol.proj.toLonLat(coordinate));
-						document.getElementById('popup-content');
-						content.innerHTML = '<p>You clicked here:</p><code>' + hdms + '</code>';
-						overlay.setPosition(coordinate);
-					   });
+			ol_map.on('click', function(evt) { 
+				console.log('hi');
+				displayFeatureInfo(evt); });
 		}
 							
 		// Add layer switcher add-on conrol
