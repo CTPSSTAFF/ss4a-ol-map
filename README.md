@@ -10,6 +10,7 @@ This application depends upon the following JavaScript libraries:
 The jQuery and OpenLayers libraries are loaded from a CDN; the OpenLayers layer switcher add-on library is loaded locally.
 
 ## Data Sources
+* [Stamen 'toner-lite' basemap](http://maps.stamen.com/)
 * [MassGIS Basemap](https://www.mass.gov/service-details/massgis-base-map)
 * [OpenStreetMap](https://www.openstreetmap.org)
 * Boundary of the Boston Region MPO: [MassGIS TOWNS_POLYM layer](https://www.mass.gov/info-details/massgis-data-municipalities),
