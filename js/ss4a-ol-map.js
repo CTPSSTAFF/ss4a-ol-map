@@ -119,7 +119,7 @@ var mapc_non_mpo = new ol.layer.Vector({ title: 'MAPC area not within Boston Reg
 									
 // Vector polygone layer for underserved 2010 Census tracts
 var underserved_2010_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(255, 234, 190, 0.6)' }), 
-                                                  stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 1.0)', width: 0.1})
+                                                  stroke: new ol.style.Stroke({ color: 'rgba(255, 255, 255, 1.0)', width: 0.2})
 				});
 var underserved_2010 = new ol.layer.Vector({ title: 'Underserved Census Tracts 2010',
 										     source: new ol.source.Vector({ url: 'data/geojson/underserved_mapc_tracts_2010_epsg4326.geojson',
@@ -162,14 +162,16 @@ var featureOverlay = new ol.layer.Vector({ source: new ol.source.Vector(),
                                            style: highlightStyle
                                         });
 var highlight;
-var displayFeatureInfo = function (evt) {
-	// alert('Entered click event handler.');
-	console.log('Entered click event handler.');
+// Hit-test using vector layer's method
+var displayFeatureInfoCoarse = function (evt) {
+	console.log("Entered 'coarse' click event handler.");
 	var pixel = evt.pixel;
 	var coordinate = evt.coordinate;
-    underserved_2010.getFeatures(pixel).then(function (features) {
-        var feature = features.length ? features[0] : undefined;
-        if (features.length) {
+	// var features, feature;
+    // features = ol_map.getFeaturesAtPixel(pixel);
+	underserved_2010.getFeatures(pixel).then(function (features) {
+	    var feature = features.length ? features[0] : undefined;
+		if (features.length) {
 			var tract_id = 0, app = 'No', hdc = 'No';
 			tract_id = feature.get('geoid10');
 			app = feature.get('f_p____');
@@ -179,11 +181,48 @@ var displayFeatureInfo = function (evt) {
 			s += '<p>Area of persistent poverty: &nbsp; ' + app + '</p>';
 			s += '<p>Historically disadvantaged community: &nbsp; ' + hdc + '</p>';
 			console.log(s)
-            content.innerHTML = s;
+			content.innerHTML = s;
 			overlay.setPosition(coordinate);
-        } 
-		return;
-		 
+			// The following code is currently unused
+			if (feature !== highlight) {
+				if (highlight) {
+					featureOverlay.getSource().removeFeature(highlight);
+				}
+				if (feature) {
+					featureOverlay.getSource().addFeature(feature);
+				}
+			  highlight = feature;
+			}
+		}
+	});
+};
+
+
+// Hit-test using map object's method
+var displayFeatureInfoFine = function (evt) {
+	console.log("Entered 'fine' click event handler.");
+	var pixel = evt.pixel;
+	var coordinate = evt.coordinate;
+	var features, feature;
+	// TODO: set hitTolerance based on map's zoom level
+	var hitTolerance = 10;
+    features = ol_map.getFeaturesAtPixel(pixel, { 'hitTolerance' : hitTolerance });
+	var nfeatures = features.length;
+	console.log('Number of features found: ' + nfeatures);
+	if (nfeatures > 0) {
+		feature = features[0];
+		var tract_id = 0, app = 'No', hdc = 'No';
+		tract_id = feature.get('geoid10');
+		app = feature.get('f_p____');
+		hdc = feature.get('g_h____');
+		var content = document.getElementById('popup-content');
+		var s = '<p>Tract ID: &nbsp; ' + tract_id + '</p>';
+		s += '<p>Area of persistent poverty: &nbsp; ' + app + '</p>';
+		s += '<p>Historically disadvantaged community: &nbsp; ' + hdc + '</p>';
+		console.log(s)
+		content.innerHTML = s;
+		overlay.setPosition(coordinate);
+		// The following code is currently unused
 		if (feature !== highlight) {
 			if (highlight) {
 				featureOverlay.getSource().removeFeature(highlight);
@@ -193,7 +232,7 @@ var displayFeatureInfo = function (evt) {
 			}
 		  highlight = feature;
 		}
-	});
+	}
 };
 
 // Function: initialize()
@@ -332,11 +371,8 @@ function initialize() {
                             });
 
 		// Proof-of-concept code to display 'popup' overlay:
-		if (popup_on == true) {
-			ol_map.on('click', function(evt) { 
-				console.log('hi');
-				displayFeatureInfo(evt); });
-		}
+		ol_map.on('singleclick', function(evt) { displayFeatureInfoFine(evt); });
+
 							
 		// Add layer switcher add-on conrol
 		var layerSwitcher = new ol.control.LayerSwitcher({ tipLabel: 'Legend', // Optional label for button
