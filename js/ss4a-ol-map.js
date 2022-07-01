@@ -216,9 +216,9 @@ var displayFeatureInfoFine = function (evt) {
 		app = feature.get('f_p____');
 		hdc = feature.get('g_h____');
 		var content = document.getElementById('popup-content');
-		var s = '<p>Tract ID: &nbsp; ' + tract_id + '</p>';
-		s += '<p>Area of persistent poverty: &nbsp; ' + app + '</p>';
-		s += '<p>Historically disadvantaged community: &nbsp; ' + hdc + '</p>';
+		var s = '<p>Tract ID: &nbsp; ' + tract_id + '<br/>';
+		s += 'Area of persistent poverty: &nbsp; ' + app + '<br/>';
+		s += 'Historically disadvantaged community: &nbsp; ' + hdc + '</p>';
 		console.log(s)
 		content.innerHTML = s;
 		overlay.setPosition(coordinate);
