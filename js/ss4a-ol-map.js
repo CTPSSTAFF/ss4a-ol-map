@@ -18,9 +18,10 @@ var mgis_basemap_layers = { 'topo_features'     : null,     // bottom layer
                             'parcels'           : null      // unused; not populated
 };
 
-// OpenLayers layer for OpenStreetMap basesmap layer
-var osm_basemap_layer = null; 
-
+// OpenLayers layers for OpenStreetMap, Stamen, and MAPC basesmap layers
+var osm_basemap_layer = null,
+    stamen_basemap_layer = nulll,
+    mapc_basemap_layer = null;
 
 // Varioius things for WMS and WFS layers
 // First, folderol to allow the app to run on appsrvr3 as well as "in the wild"
@@ -69,11 +70,24 @@ function toggle_basemap(e) {
             mgis_basemap_layers['structures'].setVisible(false);
             mgis_basemap_layers['basemap_features'].setVisible(false);
 			osm_basemap_layer.setVisible(false);
+			mapc_basemap_layer.setVisible(false);
+			
 			stamen_basemap_layer.setVisible(true);
 			break;
+		case 'mapc_basemap':
+		    mgis_basemap_layers['topo_features'].setVisible(false);
+            mgis_basemap_layers['structures'].setVisible(false);
+            mgis_basemap_layers['basemap_features'].setVisible(false);
+			stamen_basemap_layer.setVisible(false);
+			osm_basemap_layer.setVisible(false);
+			
+			mapc_basemap_layer.setVisible(true);
+			break;
         case 'massgis_basemap' :
+			mapc_basemap_layer.setVisible(false);
 			stamen_basemap_layer.setVisible(false);
             osm_basemap_layer.setVisible(false); 
+			
             mgis_basemap_layers['topo_features'].setVisible(true);
             mgis_basemap_layers['structures'].setVisible(true);
             mgis_basemap_layers['basemap_features'].setVisible(true);
@@ -82,8 +96,10 @@ function toggle_basemap(e) {
             mgis_basemap_layers['topo_features'].setVisible(false);
             mgis_basemap_layers['structures'].setVisible(false);
             mgis_basemap_layers['basemap_features'].setVisible(false);
+			mapc_basemap_layer.setVisible(false);
 			stamen_basemap_layer.setVisible(false);
-            osm_basemap_layer.setVisible(true);   
+			
+            osm_basemap_layer.setVisible(true); 
             break;
         default:
             break;
@@ -330,7 +346,12 @@ function initialize() {
 		// Create Stamen 'toner-lite' base layer
 	    stamen_basemap_layer = new ol.layer.Tile({ source: new ol.source.Stamen({layer: 'toner-lite',
 		                                                                          url: "https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png" }) });
-		stamen_basemap_layer.setVisible(true);
+		stamen_basemap_layer.setVisible(false);
+		
+		// MAPC base layer
+		mapc_base_layer = new ol.layer.Tile({ source: new ol.source.TileWMS({ // layer: 'Basemap', 
+		                                                                     url: "http://tiles.mapc.org/basemap/{Z}/{X}/{Y}.png" }) }) ;
+		mapc_basemap_layer.setVisible(true);
 
 		// Create WMS layers
 		var brmpo_wms = new ol.layer.Tile({	source: new ol.source.TileWMS({ url		: szWMSserverRoot,
