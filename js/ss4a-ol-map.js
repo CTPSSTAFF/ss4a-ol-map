@@ -271,7 +271,7 @@ function initialize() {
 												   
 		// This layer renders the boundaries of all MAPC towns (BRMPO and non-BRMPO)
 		var all_mapc_towns = new ol.layer.Tile({ source: new ol.source.TileWMS({ url:		szWMSserverRoot,
-		                                                                         params: { 'LAYERS' : 'postgis:ctps_towns_mapc_tour',
+		                                                                         params: { 'LAYERS' : 'postgis:ctps_all_mapc_towns',
 																				           'STYLES' : 'slategray_stroke',
 																						   'TRANSPARENT' : true
 																				         }
