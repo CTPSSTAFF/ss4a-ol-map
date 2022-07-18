@@ -349,11 +349,12 @@ function initialize() {
 		stamen_basemap_layer.setVisible(true);
 		
 		// MAPC base layer
-/*
+		// NOTE: The object returned by the following call to ol.layerTile appears to be 'un-healthy',
+		//       and the call itself may cause damaging side-effects: NO layers can be rendered.
 		mapc_basemap_layer = new ol.layer.Tile({ source: new ol.source.TileWMS({name: 'Basemap', 
 		                                                                     url: "http://tiles.mapc.org/basemap/{Z}/{X}/{Y}.png"}) }) ;
 		mapc_basemap_layer.setVisible(true);
-*/
+
 
 		// Create WMS layers
 		var brmpo_wms = new ol.layer.Tile({	source: new ol.source.TileWMS({ url		: szWMSserverRoot,
@@ -377,7 +378,7 @@ function initialize() {
 								                   });	
 
         // Create OpenLayers map
-        ol_map = new ol.Map({ layers: [  // mapc_basemap_layer,
+        ol_map = new ol.Map({ layers: [  mapc_basemap_layer,
 		                                 stamen_basemap_layer, 
 										 osm_basemap_layer,
                                          mgis_basemap_layers['topo_features'],
