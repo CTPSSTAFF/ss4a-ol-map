@@ -268,6 +268,17 @@ function initialize() {
 									                 title: 'MAPC area not within Boston Region MPO',
 													 visible: true
 								                   });	
+												   
+		// This layer renders the boundaries of all MAPC towns (BRMPO and non-BRMPO)
+		var all_mapc_towns = new ol.layer.Tile({ source: new ol.source.TileWMS({ url:		szWMSserverRoot,
+		                                                                         params: { 'LAYERS' : 'postgis:ctps_towns_mapc_tour',
+																				           'STYLES' : 'slategray_stroke',
+																						   'TRANSPARENT' : true
+																				         }
+																				}),
+												title: 'MAPC town boundaries',
+												visible: true
+											});
 
         // Create OpenLayers map
         ol_map = new ol.Map({ layers: [  stamen_basemap_layer, 
@@ -277,6 +288,7 @@ function initialize() {
                                          mgis_basemap_layers['basemap_features'],
 										 brmpo_wms,
 										 mapc_non_brmpo_wms,
+										 all_mapc_towns, 
 										 underserved_2010,
 										 brmpo_crashes,
 										 mapc_non_brmpo_crashes
