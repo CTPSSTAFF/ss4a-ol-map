@@ -346,13 +346,13 @@ function initialize() {
 		// Create Stamen 'toner-lite' base layer
 	    stamen_basemap_layer = new ol.layer.Tile({ source: new ol.source.Stamen({layer: 'toner-lite',
 		                                                                          url: "https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png" }) });
-		stamen_basemap_layer.setVisible(true);
+		stamen_basemap_layer.setVisible(false);
 		
 		// MAPC base layer
 		// NOTE: The object returned by the following call to ol.layerTile appears to be 'un-healthy',
 		//       and the call itself may cause damaging side-effects: NO layers can be rendered.
-		mapc_basemap_layer = new ol.layer.Tile({ source: new ol.source.TileWMS({name: 'Basemap', 
-		                                                                     url: "http://tiles.mapc.org/basemap/{Z}/{X}/{Y}.png"}) }) ;
+		mapc_basemap_layer = new ol.layer.Tile({ source: new ol.source.TileWMS({layer: 'Basemap', 
+		                                                                        url: "http://tiles.mapc.org/basemap/{Z}/{X}/{Y}.png"}) }) ;
 		mapc_basemap_layer.setVisible(true);
 
 
