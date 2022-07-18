@@ -346,12 +346,14 @@ function initialize() {
 		// Create Stamen 'toner-lite' base layer
 	    stamen_basemap_layer = new ol.layer.Tile({ source: new ol.source.Stamen({layer: 'toner-lite',
 		                                                                          url: "https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png" }) });
-		stamen_basemap_layer.setVisible(false);
+		stamen_basemap_layer.setVisible(true);
 		
 		// MAPC base layer
-		mapc_base_layer = new ol.layer.Tile({ source: new ol.source.TileWMS({ // layer: 'Basemap', 
-		                                                                     url: "http://tiles.mapc.org/basemap/{Z}/{X}/{Y}.png" }) }) ;
+/*
+		mapc_basemap_layer = new ol.layer.Tile({ source: new ol.source.TileWMS({name: 'Basemap', 
+		                                                                     url: "http://tiles.mapc.org/basemap/{Z}/{X}/{Y}.png"}) }) ;
 		mapc_basemap_layer.setVisible(true);
+*/
 
 		// Create WMS layers
 		var brmpo_wms = new ol.layer.Tile({	source: new ol.source.TileWMS({ url		: szWMSserverRoot,
@@ -375,7 +377,8 @@ function initialize() {
 								                   });	
 
         // Create OpenLayers map
-        ol_map = new ol.Map({ layers: [  stamen_basemap_layer, 
+        ol_map = new ol.Map({ layers: [  // mapc_basemap_layer,
+		                                 stamen_basemap_layer, 
 										 osm_basemap_layer,
                                          mgis_basemap_layers['topo_features'],
                                          mgis_basemap_layers['structures'],
