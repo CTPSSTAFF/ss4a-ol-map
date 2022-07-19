@@ -61,9 +61,9 @@ var overlay = new ol.Overlay({ element: container,
 // Sledgehammer to enable/disable creation of popup
 var popup_on = false;
 
-// On-change event handler for radio buttons to chose basemap
-function toggle_basemap(e) {
-    switch($(this).val()) {
+// Function to toggle basemap
+function toggle_basemap(basemap_name) {
+    switch(basemap_name) {
 		case 'stamen_basemap':
             mgis_basemap_layers['topo_features'].setVisible(false);
             mgis_basemap_layers['structures'].setVisible(false);
@@ -87,9 +87,13 @@ function toggle_basemap(e) {
             break;
         default:
             break;
-    }   
-} // toggle_basemap()
-
+    } 	
+} 
+// On-change event handler for radio buttons to chose basemap
+function toggle_basemap_handler (e) {
+	var basemap_name = $(this).val();
+	toggle_basemap(basemap_name);
+}
 
 // Definition of vector 'overlay' layers:
 // In practice, we may wind up using WMS/WFS layers instead of Vector layers for some/all of these,
@@ -320,11 +324,12 @@ function initialize() {
 	
     // 2. Arm event handlers for UI control(s)
     // Arm event handler for basemap selection
-    $(".basemap_radio").change(toggle_basemap);
+    $(".basemap_radio").change(toggle_basemap_handler);
 	
 	$("#reset_map").click(function(e) {
 		ol_map.getView().setCenter(initMapCenter);
 		ol_map.getView().setZoom(initMapZoom);
+		toggle_basemap('stamen_basemap');
 		});
 
 	// Help button
