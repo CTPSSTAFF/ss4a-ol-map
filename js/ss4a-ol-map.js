@@ -152,8 +152,7 @@ var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in MAPC
 		});
 
 // Function: initialize()
-//     0. Initialize the jQueryUI accordion control
-//     1. Initialize OpenLayers map, gets MassGIS basemap service properties by executing AJAX request
+//     1. Initialize OpenLayers map; get MassGIS basemap service properties by executing AJAX request
 //     2. Arm event handlers for UI controls
 //
 function initialize() {  
