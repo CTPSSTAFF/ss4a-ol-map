@@ -122,7 +122,7 @@ var underserved_2010_style = new ol.style.Style({ fill:   new ol.style.Fill({ co
                                                   stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 1.0)', width: 0.1})
 				});
 var underserved_2010 = new ol.layer.Vector({ title: 'Underserved Census Tracts 2010',
-										     source: new ol.source.Vector({ url: 'data/geojson/underserved_mapc_tracts_2010_epsg4326.geojson',
+										     source: new ol.source.Vector({ url: 'data/geojson/underserved_mapc_tracts_2020_epsg4326.geojson',
 										                                   format: new ol.format.GeoJSON()
 																       }),
 										     style: underserved_2010_style
