@@ -87,7 +87,8 @@ function toggle_basemap(basemap_name) {
             break;
         default:
             break;
-    } 	
+    }
+	$('#' + basemap_name).prop("checked", true);
 } 
 // On-change event handler for radio buttons to chose basemap
 function toggle_basemap_handler (e) {
