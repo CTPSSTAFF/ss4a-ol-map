@@ -139,6 +139,18 @@ var brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in BRMPO',
 																}),
 								          style: brmpo_crash_style
 								});
+								
+								
+var brmpo_crashes_heat = new ol.layer.Heatmap({ title: 'Fatal crashes in BRMPO heatmap',
+                                                source: new ol.source.Vector({ url: 'data/geojson/fatal_crashes_brmpo_2016_2020.geojson',
+											                                   format: new ol.format.GeoJSON()
+											                               }),
+											    blur: 	15,	// use default for now
+                                                radius: 8,	// use default for now
+                                                weight: function (feature) {
+													    var fatals = feature.get('FATALS')
+													    return fatals / 2;	// max # FATALS = 2; a hack, I know
+												} });
 
 // Vector point layer for accidents in MAPC area not in BRMPO in 2016-2020
 var mapc_non_brmpo_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
@@ -150,6 +162,17 @@ var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in MAPC
 																}),
 								                   style: mapc_non_brmpo_crash_style
 		});
+
+var mapc_non_brmpo_crashes_heat = new ol.layer.Heatmap({ title: 'Fatal crashes in MAPC non-BRMPO heatmap',
+                                                source: new ol.source.Vector({ url: 'data/geojson/fatal_crashes_mapc_non_brmpo_2016_2020.geojson',
+											                                   format: new ol.format.GeoJSON()
+											                               }),
+											    blur: 	15,	// use default for now
+                                                radius: 8,	// use default for now
+                                                weight: function (feature) {
+													    var fatals = feature.get('FATALS')
+													    return fatals / 2;	// max # FATALS = 2; a hack, I know
+												} });
 
 // Function: initialize()
 //     0. Initialize the jQueryUI accordion control
@@ -291,7 +314,9 @@ function initialize() {
 										 all_mapc_towns, 
 										 underserved_2010,
 										 brmpo_crashes,
-										 mapc_non_brmpo_crashes
+										 brmpo_crashes_heat,
+										 mapc_non_brmpo_crashes,
+										 mapc_non_brmpo_crashes_heat
                                       ],
                                target: 'map',
                                view:   initMapView,
