@@ -133,18 +133,30 @@ var underserved_2020 = new ol.layer.Vector({ title: 'Underserved Census Tracts 2
 										     style: underserved_tracts_style
 									});
 
+// Vector point layer for fatal crashes in MAPC area in 2016-2020
+var mapc_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
+                                                                          fill: new ol.style.Fill({color: 'red'}) })
+                                                                        });
+var mapc_crashes = 	= new ol.layer.Vector({ title: 'Fatal crashes in MAPC area',
+								          source: new ol.source.Vector({  url: 'data/geojson/fatal_crashes_mapc_2016_2020.geojson',
+								                                          format: new ol.format.GeoJSON()
+																}),
+								          style: mapc_crash_style
+								});
+																	
+// As of July 28, 2022, the following layers should no longer be needed.
+// This code is being retained "for the time being", in case it might need to be swapped in at short notice.
+/******************************************************************************																		
 // Vector point layer for accidents in BRMPO area in 2016-2020
 var brmpo_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
                                                                           fill: new ol.style.Fill({color: 'red'}) })
                                                                         });
-
 var brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in BRMPO',
 								          source: new ol.source.Vector({  url: 'data/geojson/fatal_crashes_brmpo_2016_2020.geojson',
 								                                          format: new ol.format.GeoJSON()
 																}),
 								          style: brmpo_crash_style
 								});
-
 // Vector point layer for accidents in MAPC area not in BRMPO in 2016-2020
 var mapc_non_brmpo_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
                                                                                    fill: new ol.style.Fill({color: 'yellow'}) })
@@ -155,6 +167,7 @@ var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in MAPC
 																}),
 								                   style: mapc_non_brmpo_crash_style
 		});
+******************************************************************************/
 
 // Function: initialize()
 //     1. Initialize OpenLayers map; get MassGIS basemap service properties by executing AJAX request
@@ -294,8 +307,7 @@ function initialize() {
 										 mapc_non_brmpo_wms,
 										 all_mapc_towns, 
 										 underserved_2020,
-										 brmpo_crashes,
-										 mapc_non_brmpo_crashes
+										 mapc_crashes
                                       ],
                                target: 'map',
                                view:   initMapView,
