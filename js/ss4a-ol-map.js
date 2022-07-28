@@ -137,7 +137,7 @@ var underserved_2020 = new ol.layer.Vector({ title: 'Underserved Census Tracts 2
 var mapc_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
                                                                           fill: new ol.style.Fill({color: 'red'}) })
                                                                         });
-var mapc_crashes = 	= new ol.layer.Vector({ title: 'Fatal crashes in MAPC area',
+var mapc_crashes = 	new ol.layer.Vector({ title: 'Fatal crashes in MAPC area',
 								          source: new ol.source.Vector({  url: 'data/geojson/fatal_crashes_mapc_2016_2020.geojson',
 								                                          format: new ol.format.GeoJSON()
 																}),
