@@ -133,7 +133,9 @@ var underserved_2020 = new ol.layer.Vector({ title: 'Underserved Census Tracts 2
 										     style: underserved_tracts_style
 									});
 
-// Vector point layer for fatal crashes in MAPC area in 2016-2020
+// Vector point layer for ALL fatal crashes in MAPC area in 2016-2020
+// No longer to be used as of 4:00 p.m., July 28, 2020.
+/******************************************************************************	
 var mapc_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
                                                                           fill: new ol.style.Fill({color: 'red'}) })
                                                                         });
@@ -143,10 +145,9 @@ var mapc_crashes = 	new ol.layer.Vector({ title: 'Fatal crashes in MAPC area',
 																}),
 								          style: mapc_crash_style
 								});
+******************************************************************************/
 																	
-// As of July 28, 2022, the following layers should no longer be needed.
-// This code is being retained "for the time being", in case it might need to be swapped in at short notice.
-/******************************************************************************																		
+															
 // Vector point layer for accidents in BRMPO area in 2016-2020
 var brmpo_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
                                                                           fill: new ol.style.Fill({color: 'red'}) })
@@ -167,7 +168,7 @@ var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in MAPC
 																}),
 								                   style: mapc_non_brmpo_crash_style
 		});
-******************************************************************************/
+
 
 // Function: initialize()
 //     1. Initialize OpenLayers map; get MassGIS basemap service properties by executing AJAX request
@@ -307,7 +308,8 @@ function initialize() {
 										 mapc_non_brmpo_wms,
 										 all_mapc_towns, 
 										 underserved_2020,
-										 mapc_crashes
+										 brmpo_crashes,
+										 mapc_non_brmpo_crashes
                                       ],
                                target: 'map',
                                view:   initMapView,
