@@ -2,6 +2,36 @@
 //
 // Author: Ben  Krepp (bkrepp@ctps.org)
 
+///////////////////////////////////////////////////////////////////////////////
+// Stuff for heatmap layer parameters. 
+// 'blur' value:
+var blur = document.getElementById('blur');
+var blur_text = document.getElementById('blur_text');
+var blurHandler = function () {
+	// Change blur value for _both_ heatmap layers
+	brmpo_crashes_heat.setBlur(parseInt(blur.value, 10));
+	mapc_non_brmpo_crashes_heat.setBlur(parseInt(blur.value, 10));
+	// Report value
+	blur_text.innerHTML = blur.value;
+};
+blur.addEventListener('input', blurHandler);
+blur.addEventListener('change', blurHandler);
+// 'radius' value:
+var radius = document.getElementById('radius');
+var radius_text = document.getElementById('radius_text');
+var radiusHandler = function () {
+	// Change radius value for _both_ heatmap layers
+	brmpo_crashes_heat.setRadius(parseInt(radius.value, 10));
+	mapc_non_brmpo_crashes_heat.setRadius(parseInt(radius.value, 10));
+	// Report value
+	radius_text.innerHTML = radius.value;
+};
+radius.addEventListener('input', radiusHandler);
+radius.addEventListener('change', radiusHandler);
+//
+// End of stuff for heatmap layer parameters
+///////////////////////////////////////////////////////////////////////////////
+
 
 // URLs for MassGIS basemap layer services
 var mgis_serviceUrls = { 
@@ -22,7 +52,7 @@ var mgis_basemap_layers = { 'topo_features'     : null,     // bottom layer
 var osm_basemap_layer = null; 
 
 
-// Varioius things for WMS and WFS layers
+// Various things for WMS and WFS layers
 // First, folderol to allow the app to run on appsrvr3 as well as "in the wild"
 var szServerRoot = location.protocol + '//' + location.hostname;
 var nameSpace;
@@ -165,13 +195,12 @@ function heatmap_weight_function(feature) {
 	return fatals / 2;	// max # FATALS = 2; a hack, I know
 }
 
-
 var brmpo_crashes_heat = new ol.layer.Heatmap({ title: 'Fatal crashes in BRMPO heatmap',
                                                 source: new ol.source.Vector({ url: 'data/geojson/fatal_crashes_brmpo_2016_2020.geojson',
 											                                   format: new ol.format.GeoJSON()
 											                               }),
-											    blur: 	15,	// use default for now
-                                                radius: 8,	// use default for now
+											    blur: 	parseInt(blur.value, 10),
+                                                radius: parseInt(radius.value, 10),
                                                 weight: heatmap_weight_function });
 
 // Vector point layer for accidents in MAPC area not in BRMPO in 2016-2020
@@ -189,8 +218,8 @@ var mapc_non_brmpo_crashes_heat = new ol.layer.Heatmap({ title: 'Fatal crashes i
                                                 source: new ol.source.Vector({ url: 'data/geojson/fatal_crashes_mapc_non_brmpo_2016_2020.geojson',
 											                                   format: new ol.format.GeoJSON()
 											                               }),
-											    blur: 	15,	// use default for now
-                                                radius: 8,	// use default for now
+											    blur: 	parseInt(blur.value, 10),
+                                                radius: parseInt(radius.value, 10),
                                                 weight: heatmap_weight_function });
 
 
