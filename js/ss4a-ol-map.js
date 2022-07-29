@@ -61,9 +61,9 @@ var overlay = new ol.Overlay({ element: container,
 // Sledgehammer to enable/disable creation of popup
 var popup_on = false;
 
-// On-change event handler for radio buttons to chose basemap
-function toggle_basemap(e) {
-    switch($(this).val()) {
+// Function to toggle basemap
+function toggle_basemap(basemap_name) {
+    switch(basemap_name) {
 		case 'stamen_basemap':
             mgis_basemap_layers['topo_features'].setVisible(false);
             mgis_basemap_layers['structures'].setVisible(false);
@@ -87,9 +87,14 @@ function toggle_basemap(e) {
             break;
         default:
             break;
-    }   
-} // toggle_basemap()
-
+    }
+	$('#' + basemap_name).prop("checked", true);
+} 
+// On-change event handler for radio buttons to chose basemap
+function toggle_basemap_handler (e) {
+	var basemap_name = $(this).val();
+	toggle_basemap(basemap_name);
+}
 
 // Definition of vector 'overlay' layers:
 // In practice, we may wind up using WMS/WFS layers instead of Vector layers for some/all of these,
@@ -117,40 +122,57 @@ var mapc_non_mpo = new ol.layer.Vector({ title: 'MAPC area not within Boston Reg
 										 style: mapc_non_mpo_style
 									});
 									
-// Vector polygone layer for underserved 2010 Census tracts
-var underserved_2010_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(255, 234, 190, 0.6)' }), 
-                                                  stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 1.0)', width: 0.1})
+// Vector polygon layer for underserved 2020 Census tracts
+
+var underserved_tracts_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(255, 255, 0, 0.6)' }), 
+                                                    stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 1.0)', width: 0.1})
 				});
-var underserved_2010 = new ol.layer.Vector({ title: 'Underserved Census Tracts 2010',
-										     source: new ol.source.Vector({ url: 'data/geojson/underserved_mapc_tracts_2010_epsg4326.geojson',
+var underserved_2020 = new ol.layer.Vector({ title: 'Underserved Census Tracts 2020',
+										     source: new ol.source.Vector({ url: 'data/geojson/underserved_mapc_tracts_2020_epsg4326.geojson',
 										                                   format: new ol.format.GeoJSON()
 																       }),
-										     style: underserved_2010_style
+										     style: underserved_tracts_style
 									});
 
+// Vector point layer for ALL fatal crashes in MAPC area in 2016-2020
+// No longer to be used as of 4:00 p.m., July 28, 2020.
+/******************************************************************************	
+var mapc_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
+                                                                          fill: new ol.style.Fill({color: 'red'}) })
+                                                                        });
+var mapc_crashes = 	new ol.layer.Vector({ title: 'Fatal crashes in MAPC area',
+								          source: new ol.source.Vector({  url: 'data/geojson/fatal_crashes_mapc_2016_2020.geojson',
+								                                          format: new ol.format.GeoJSON()
+																}),
+								          style: mapc_crash_style
+								});
+******************************************************************************/
+																	
+															
 // Vector point layer for accidents in BRMPO area in 2016-2020
 var brmpo_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
                                                                           fill: new ol.style.Fill({color: 'red'}) })
                                                                         });
-
 var brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in BRMPO',
 								          source: new ol.source.Vector({  url: 'data/geojson/fatal_crashes_brmpo_2016_2020.geojson',
 								                                          format: new ol.format.GeoJSON()
 																}),
 								          style: brmpo_crash_style
 								});
-								
-								
+// Common function for calculating 'weight' of fatal crash features for heatmap layers								
+function heatmap_weight_function(feature) {
+	var fatals = feature.get('FATALS')
+	return fatals / 2;	// max # FATALS = 2; a hack, I know
+}
+
+
 var brmpo_crashes_heat = new ol.layer.Heatmap({ title: 'Fatal crashes in BRMPO heatmap',
                                                 source: new ol.source.Vector({ url: 'data/geojson/fatal_crashes_brmpo_2016_2020.geojson',
 											                                   format: new ol.format.GeoJSON()
 											                               }),
 											    blur: 	15,	// use default for now
                                                 radius: 8,	// use default for now
-                                                weight: function (feature) {
-													    var fatals = feature.get('FATALS')
-													    return fatals / 2;	// max # FATALS = 2; a hack, I know
-												} });
+                                                weight: heatmap_weight_function });
 
 // Vector point layer for accidents in MAPC area not in BRMPO in 2016-2020
 var mapc_non_brmpo_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
@@ -169,14 +191,11 @@ var mapc_non_brmpo_crashes_heat = new ol.layer.Heatmap({ title: 'Fatal crashes i
 											                               }),
 											    blur: 	15,	// use default for now
                                                 radius: 8,	// use default for now
-                                                weight: function (feature) {
-													    var fatals = feature.get('FATALS')
-													    return fatals / 2;	// max # FATALS = 2; a hack, I know
-												} });
+                                                weight: heatmap_weight_function });
+
 
 // Function: initialize()
-//     0. Initialize the jQueryUI accordion control
-//     1. Initialize OpenLayers map, gets MassGIS basemap service properties by executing AJAX request
+//     1. Initialize OpenLayers map; get MassGIS basemap service properties by executing AJAX request
 //     2. Arm event handlers for UI controls
 //
 function initialize() {  
@@ -312,7 +331,7 @@ function initialize() {
 										 brmpo_wms,
 										 mapc_non_brmpo_wms,
 										 all_mapc_towns, 
-										 underserved_2010,
+										 underserved_2020,
 										 brmpo_crashes,
 										 brmpo_crashes_heat,
 										 mapc_non_brmpo_crashes,
@@ -346,11 +365,12 @@ function initialize() {
 	
     // 2. Arm event handlers for UI control(s)
     // Arm event handler for basemap selection
-    $(".basemap_radio").change(toggle_basemap);
+    $(".basemap_radio").change(toggle_basemap_handler);
 	
 	$("#reset_map").click(function(e) {
 		ol_map.getView().setCenter(initMapCenter);
 		ol_map.getView().setZoom(initMapZoom);
+		toggle_basemap('stamen_basemap');
 		});
 
 	// Help button
