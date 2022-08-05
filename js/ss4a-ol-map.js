@@ -161,7 +161,7 @@ var brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in BRMPO',
 								});
 // Vector point layer for accidents in MAPC area not in BRMPO in 2016-2020
 var mapc_non_brmpo_crash_style = new ol.style.Style({ image: new ol.style.Circle({ radius: 2.5,
-                                                                                   fill: new ol.style.Fill({color: 'yellow'}) })
+                                                                                   fill: new ol.style.Fill({color: 'red'}) })
                                                                                  });
 var mapc_non_brmpo_crashes = new ol.layer.Vector({ title: 'Fatal crashes in MAPC area, not in BRMPO',
 								                   source: new ol.source.Vector({  url: 'data/geojson/fatal_crashes_mapc_non_brmpo_2016_2020.geojson',
