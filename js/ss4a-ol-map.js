@@ -123,11 +123,10 @@ var mapc_non_mpo = new ol.layer.Vector({ title: 'MAPC area not within Boston Reg
 									});
 									
 // Vector polygon layer for underserved 2010 Census Tracts in MAPC area
-
 var underserved_tracts_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(255, 255, 0, 0.6)' }), 
                                                     stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 1.0)', width: 0.1})
 				});
-var underserved_tracts = new ol.layer.Vector({ title: 'Underserved Census Tracts 2010',
+var underserved_tracts = new ol.layer.Vector({ title: 'Underserved Communities',
 										      source: new ol.source.Vector({ url: 'data/geojson/underserved_HDC_inMAPC_2010CensusTracts_20220808.geojson',
 										                                     format: new ol.format.GeoJSON()
 																       }),
