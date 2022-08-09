@@ -122,14 +122,14 @@ var mapc_non_mpo = new ol.layer.Vector({ title: 'MAPC area not within Boston Reg
 										 style: mapc_non_mpo_style
 									});
 									
-// Vector polygon layer for underserved 2020 Census tracts
+// Vector polygon layer for underserved 2010 Census Tracts in MAPC area
 
 var underserved_tracts_style = new ol.style.Style({ fill:   new ol.style.Fill({ color: 'rgba(255, 255, 0, 0.6)' }), 
                                                     stroke: new ol.style.Stroke({ color: 'rgba(0, 0, 0, 1.0)', width: 0.1})
 				});
-var underserved_2020 = new ol.layer.Vector({ title: 'Underserved Census Tracts 2020',
-										     source: new ol.source.Vector({ url: 'data/geojson/underserved_mapc_tracts_2020_epsg4326.geojson',
-										                                   format: new ol.format.GeoJSON()
+var underserved_tracts = new ol.layer.Vector({ title: 'Underserved Census Tracts 2010',
+										      source: new ol.source.Vector({ url: 'data/geojson/underserved_HDC_inMAPC_2010CensusTracts_20200808.geojson',
+										                                     format: new ol.format.GeoJSON()
 																       }),
 										     style: underserved_tracts_style
 									});
@@ -308,7 +308,7 @@ function initialize() {
 										 brmpo_wms,
 										 mapc_non_brmpo_wms,
 										 all_mapc_towns, 
-										 underserved_2020,
+										 underserved_tracts,
 										 brmpo_crashes,
 										 mapc_non_brmpo_crashes
                                       ],
