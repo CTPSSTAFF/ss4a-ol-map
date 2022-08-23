@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <title>The Boston Region MPO's Safe Streets and Roads for All Grant Application Map</title>
 		
-        <link rel="stylesheet" href="libs/jquery-ui-1.10.4/css/cupertino/jquery-ui-1.10.4.custom.min.css"/>
-		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" integrity="sha512-ug/p2fTnYRx/TfVgL8ejTWolaq93X+48/FLS9fKf7AiazbxHkSEENdzWkOxbjJO/X1grUPt9ERfBt21iLh2dxg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+        <!-- <link rel="stylesheet" href="libs/jquery-ui-1.10.4/css/cupertino/jquery-ui-1.10.4.custom.min.css"/> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/cupertino/jquery-ui.min.css" integrity="sha512-ug/p2fTnYRx/TfVgL8ejTWolaq93X+48/FLS9fKf7AiazbxHkSEENdzWkOxbjJO/X1grUPt9ERfBt21iLh2dxg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		
-        <!-- <link rel="stylesheet" src="libs/openlayers-6.14.1-ol.css" type="text/css"> -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+        <link rel="stylesheet" src="libs/openlayers-6.14.1-ol.css" type="text/css">
+		<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css"> -->
 		
 		<!-- CSS for OpenLayers layer switcher add-on control: loaded locally -->
 		<link rel="stylesheet" href="libs/ol-layerswitcher.css" type="text/css">
@@ -66,6 +66,21 @@
         </div>
         
         <h2>The Boston Region MPO's Safe Streets and Roads for All Grant Application Map</h2>
+		
+		<!-- Controls to fiddle with parameters for heatmap layer. -->
+		<div id="heatmap_controls">
+			<span>
+				<label for="radius">radius</label>
+				<input id="radius" type="range" min="1" max="50" step="1" value="8"/>
+				&nbsp;&nbsp;
+				<span id="radius_text" class='heatmap_text'>8</span>
+				&nbsp; &nbsp; &nbsp;
+				<label for="blur">blur</label>
+				<input id="blur" type="range" min="1" max="50" step="1" value="15"/>
+				&nbsp;&nbsp;
+				<span id="blur_text" class='heatmap_text'>15</span>
+			</span>
+		</div>
         
         <div id="map_controls">
             <span>
