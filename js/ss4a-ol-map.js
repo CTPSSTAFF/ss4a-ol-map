@@ -305,10 +305,10 @@ function initialize() {
                                          mgis_basemap_layers['structures'],
                                          mgis_basemap_layers['basemap_features'],
 										 brmpo_wms,
-										 mapc_non_brmpo_wms,
-										 all_mapc_towns, 
 										 underserved_tracts,
 										 brmpo_crashes,
+										 all_mapc_towns, 
+										 mapc_non_brmpo_wms,
 										 mapc_non_brmpo_crashes
                                       ],
                                target: 'map',
