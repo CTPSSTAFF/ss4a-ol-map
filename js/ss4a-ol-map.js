@@ -297,7 +297,17 @@ function initialize() {
 												title: 'MAPC town boundaries',
 												visible: true
 											});
-
+		
+		// Layer group for MAPC-specific layers
+		
+		mapc_layer_group = new ol.layer.Group({ layers: [ mapc_non_brmpo_wms,
+		                                             mapc_non_brmpo_crashes
+												   ],
+									       title:  'MAPC non-BRMPO towns and fatal crashes',
+										   groupSelectSytle: 'children',
+										   fold: true
+		                                });
+		
         // Create OpenLayers map
         ol_map = new ol.Map({ layers: [  stamen_basemap_layer, 
 										 osm_basemap_layer,
@@ -308,8 +318,8 @@ function initialize() {
 										 underserved_tracts,
 										 brmpo_crashes,
 										 all_mapc_towns, 
-										 mapc_non_brmpo_wms,
-										 mapc_non_brmpo_crashes
+										 mapc_layer_group
+										
                                       ],
                                target: 'map',
                                view:   initMapView,
