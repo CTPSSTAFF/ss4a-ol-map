@@ -42,6 +42,9 @@
     width: 100%;  
 }
 
+/* Hide OpenLayers Attribution on map */
+.ol-attribution { display: none; }
+
 /* Rules for OpenLayers map popup */
 .ol-popup {
         position: absolute;
