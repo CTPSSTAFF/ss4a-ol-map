@@ -42,6 +42,14 @@
     width: 100%;  
 }
 
+/* Hide OpenLayers Attribution on map */
+.ol-attribution { display: none; } 
+
+/* In OpenLayers layer switcher add-on control: do not use bold font (default) for layer group labels. */
+.layer-switcher li.group > label {
+	font-weight: normal;
+}
+
 /* Rules for OpenLayers map popup */
 .ol-popup {
         position: absolute;
@@ -85,8 +93,7 @@
         content: "✖";
       }
 
-/* Hide OpenLayers Attribution on map */
-/* .ol-attribution { display: none; } */
+
 
 /* In case we use jQueryUI, the following overrides jQueryUI ui-widget class size of "1.2em" */
 .ui-widget {
